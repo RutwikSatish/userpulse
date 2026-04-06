@@ -336,11 +336,15 @@ with t2:
         vals = [sub[d].mean() for d in dims]
         vals_closed = vals + [vals[0]]
         labels_closed = dim_labels + [dim_labels[0]]
+        # Convert hex to rgba for fillcolor
+        h = color.lstrip("#")
+        r_, g_, b_ = int(h[0:2],16), int(h[2:4],16), int(h[4:6],16)
+        fill_rgba = f"rgba({r_},{g_},{b_},0.10)"
         fig4.add_trace(go.Scatterpolar(
             r=vals_closed, theta=labels_closed, fill="toself",
             name=tier, line=dict(color=color, width=2),
-            fillcolor=color.replace("#", "rgba(") + ",0.08)" if "#" in color else color,
-            opacity=0.85,
+            fillcolor=fill_rgba,
+            opacity=0.9,
         ))
     fig4.update_layout(**PLOT, height=280,
         polar=dict(
